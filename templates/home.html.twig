@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<section id="home-header">
+			<h1>La référence des tricks de snowboard</h1>
+	</section>
+
+	<section id="trick-list">
+		<ul>
+
+		</ul>
+		<button id="load-more">load more</button>
+	</section>
+
+	<script>
+		{% if not app.user %}
+    		var connected = false;
+		{% else %}
+			var connected = true;
+		{% endif %}
+
+		var page = 1;
+		loadTrick(page);
+	    function loadTrick(pagination){
+	    	$.ajax({
+				url : 'http://{{app.request.httpHost}}/api/trick/' + pagination + '',
+				type : 'GET',
+				dataType : 'json',
+				success : function(objList, statut){
+					objList = JSON.parse(objList);
+					var i = 0;
+					console.log(objList);
+					console.log(objList.length);
+
+					while(i < objList.length){
+						var link = $('<a>',{href:"/trick/view/" + objList[i].id +"",})
+						var image = $("<img>",{src:"/uploads/trick/" + objList[i].imageList[0].name + "",})
+						var title = $('<h2>',{text:objList[i].name});
+						var li = $('<li>');
+						var btnEdit = $('<div>',{html:"<i class='fas fa-edit'></i>","data-id":objList[i].id,class:"trick-edit"});
+						var btnDelete = $('<div>',{html:"<i class='fas fa-trash-alt'></i>","data-id":objList[i].id,class:"trick-delete"});
+						image.appendTo(link);
+						title.appendTo(link);
+						link.appendTo(li);
+						if(connected){
+							btnEdit.appendTo(li);
+							btnDelete.appendTo(li);
+						}
+						$("#trick-list ul").append(li);
+						i++;
+					}
+					$(".trick-edit").click(function(){
+						var id = $(this).data('id');
+						window.location.replace("/trick/edit/" + id + "");
+
+						console.log("trick edit call");
+					});
+
+					$(".trick-delete").click(function(){
+						var id = $(this).data('id');
+						var r = confirm("are you sure to delete this trick ?");
+						if (r == true) {
+						  window.location.replace("/trick/remove/" + id + "");
+						}
+
+						console.log("trick edit call");
+					});
+					page++;
+
+					if(objList.length == 0){
+						page--;
+						$("#load-more").hide();
+					}
+				},
+
+				error : function(resultat, statut, erreur){
+
+				}
+
+	    	});
+	    }
+
+	    $( "#load-more" ).click(function() {
+			loadTrick(page);
+		});
+
+	</script>
+{% endblock %}

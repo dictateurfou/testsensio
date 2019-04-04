@@ -1,0 +1,567 @@
+h1,h2,h3,h4,h5{
+	margin:0em;
+	padding:0em;
+}
+
+html {
+   height: 100%;
+}
+
+body{
+	margin:0em;
+	min-height: 100%;
+}
+
+h1{
+	color:red;
+}
+
+ul{
+	list-style-type:none;
+	padding:0em;
+}
+
+textarea{
+
+    -webkit-box-sizing: border-box;
+   	-moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width:100%;
+    height:20em;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/*home page*/
+#home-header{
+	min-height: calc(100vh - 5em);
+	width:100%;
+	margin:0;
+	padding:0;
+	background: url("../images/baniere2.jpg") no-repeat center fixed; 
+	-webkit-background-size: cover; 
+	background-size: cover; 
+}
+#home-header h1{
+	position: absolute;
+    top: 50%;
+    /* adjust top up half the height of a single line */
+    text-align:center;
+    margin-top: -0.5em;
+    /* force content to always be a single line */
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    text-overflow: ellipsis;
+    font-size: 4em;
+}
+
+#trick-list{
+	text-align:center;
+}
+
+#trick-list ul{
+	text-align:center;
+	margin-left:1em;
+	margin-right:1em;
+}
+
+#trick-list h2{
+
+	display:inline-block;
+	
+}
+
+#trick-list li{
+	text-align:left;
+	width:18%;
+	display:inline-block;
+	margin-left:1em;
+	margin-right:1em;
+	height:10em;
+}
+
+#trick-list img{
+	width:100%;
+	height:100%;
+}
+
+.trick-edit{
+	float:right;
+	
+}
+
+.trick-delete{
+	float:right;
+}
+
+/*end home page*/
+
+#trick-content{
+	text-align:center;
+	width:65%;
+	margin:0 auto;
+	border:1px solid black;
+}
+
+#trick-img-header{
+	width:100%;
+}
+
+#trick-header #btn-edit{
+	width:3em;
+	position:absolute;
+	color:#fff;
+	right:0em;
+	padding:0.5em 0em;
+	background-color:green;
+}
+#trick-header{
+	position:relative;
+}
+
+#trick-header-title{
+	width:100%;
+	text-align:center;
+	color:black;
+	position:absolute;
+	top: calc(50% - 1.5em);
+	font-size:5em;
+}
+
+#trick-media embed{
+	width:24%;
+	height:10em;
+	}
+
+#trick-media img{
+	width:24%;
+	height:10em;
+
+}
+
+#trick-description{
+	margin:0 auto;
+	margin-top:1em;
+	width:70%;
+}
+
+
+#trick-additionalInfo ul{
+	list-style: none;
+	width:100%;
+}
+
+#trick-additionalInfo ul li{
+	display: inline-block;
+	border:1px solid black;
+	padding:0.3em 0.8em;
+	border-radius:10px;
+	font-size:1.2em;
+}
+
+#trick-description{
+	font-size:1.3em;
+}
+
+.trick-group{
+	background-color:green;
+	color:#fff;
+}
+
+.trick-date{
+	background-color:blue;
+	color:#fff;
+}
+
+
+.media-action{
+	display:inline-block;
+	width:20%;
+
+}
+
+.media-action.edit:hover{
+	background-color:green;
+}
+
+.media-action.delete:hover{
+	background-color:red;
+}
+
+
+/*header*/
+
+header{
+	background-color:grey;
+}
+
+header img{
+	width:8em;
+}
+
+header ul{
+	margin-top:1.7em;
+	padding:0em;
+	list-style-type: none;
+	float:right;
+	margin-right:5em;
+}
+
+header ul li{
+	display: inline-block;
+	vertical-align: middle;
+}
+
+header a{
+	text-decoration: none;
+}
+
+header a:visited{
+
+	color:#fff;
+}
+
+/* register */
+#register{
+	width:20em;
+	margin:0 auto;
+	border:1px solid black;
+	text-align:center;
+}
+
+#register label{
+	width:100%;
+	display:block;
+	text-align:center;
+}
+
+
+#register input{
+	text-align:center;
+}
+
+/*end register*/
+
+/*login*/
+#login{
+	width:20em;
+	margin:0 auto;
+	background-color:black;
+	text-align:center;
+}
+
+#login label{
+	width:100%;
+	display:block;
+	text-align:center;
+	color:#fff;
+}
+
+#login input{
+	text-align:center;
+}
+
+
+
+/*end login*/
+#title-form{
+	text-align: center;
+}
+
+
+
+
+/*comment*/
+#comment-list{
+	position:relative;
+	margin:0 auto;
+	width:70%;
+	text-align: left;
+}
+
+#comment-user-info{
+	float:left;
+	left:0em;
+	width:5em;
+	max-height:100%;
+	top:0em;
+	
+}
+
+#comment-user-info img{
+	width:100%;
+	margin:none;
+}
+
+#comment-text{
+	position:relative;
+	top:0em;
+
+}
+
+.comment-username{
+	margin:0em;
+	padding:0em;
+	text-align:center;
+}
+
+
+
+#comment-avatar i{
+	background-color: green;
+	padding: 0.3em 0.4em;
+	border-radius:50%;
+}
+
+#comment-list li{
+	margin-top:1em;
+	
+}
+
+#comment-content{
+	float:right;
+	width:calc(100% - 8em);
+	border:1px solid black;
+	margin-top:0.3em;
+	padding:0.5em;
+
+
+}
+
+
+/*end Comment*/
+
+
+/*profile edit*/
+
+
+
+/*end profile edit*/
+
+
+/*trick edit*/
+
+#form-edit{
+	text-align:center;
+	margin:0 auto;
+	margin-top:2em;
+	width:100%;
+}
+
+#form-edit ul{
+	list-style: none;
+	list-style-type: none;
+}
+
+#form-edit li{
+	display: inline-block;
+	width:20%;
+
+	border-radius:10px;
+	font-size:1.2em;
+}
+
+#trick-edit-container{
+	margin:0 auto;
+	border:1px solid black;
+	width:80%;
+}
+
+/*end trick edit*/
+
+
+#phone-menu{
+	position: fixed;
+	top:0em;
+	width:100%;
+	background-color:#fff;
+	z-index:998;
+	display:none;
+}
+
+
+#phone-trigger-menu{
+	position: fixed;
+	top:0em;
+	border:none;
+	font-size:2em;
+	display:none;
+	z-index:999;
+}
+
+#phone-menu li{
+	width:100%;
+	text-align:center;
+	border-bottom:1px solid black;
+}
+
+#phone-menu li:last-child{
+	border-bottom:none;
+}
+
+#phone-menu a{
+	color:black;
+}
+
+
+/*notif*/
+
+#notif{
+	position:fixed;
+	width:100%;
+}
+
+#notif-list{
+
+}
+
+#notif-list li{
+	position:relative;
+	text-align:center;
+	font-size:2em;
+	border-bottom:2px solid #fff;
+}
+
+#notif-list li.info{
+	color:#fff;
+	background-color:blue;
+}
+
+#notif-list li.error{
+	color:#fff;
+	background-color:red;
+}
+
+/*end notif*/
+
+#general-form{
+	width:20em;
+	margin:0 auto;
+	margin-top:1em;
+	border:1px solid black;
+	text-align:center;
+}
+
+#general-form #title-form{
+	font-size:1.5em;
+	text-decoration: underline;
+}
+
+#general-form label{
+	width:100%;
+	display:block;
+	text-align:center;
+}
+
+#general-form input{
+	text-align:center;
+}
+
+#general-form button{
+	margin-top:1em;
+}
+
+/* responsive */
+	@media only screen and (max-width: 1200px) {
+		#trick-list li{
+			width:28%;
+		}
+
+		#home-header h1{
+		    font-size: 3em;
+		}
+
+		#trick-media embed{
+			width:30%;
+			height:10em;
+		}
+
+		#trick-media img{
+			width:30%;
+			height:10em;
+		}
+
+		#trick-content{
+			width:100%;
+			border:none;
+		}
+
+		#form-edit li{
+			width:30%;
+	
+		}
+	}
+
+
+	@media only screen and (max-width: 900px) {
+		#trick-list li{
+			width:45%;
+		}
+
+		#home-header h1{
+		    font-size: 2em;
+		}
+
+		#form-edit li{
+			width:45%;
+		}
+
+	}
+
+
+	@media only screen and (max-width: 685px) {
+
+		#trick-list li{
+			width:100%;
+			margin-left:0em;
+			margin-right:0em;
+			height:auto;
+		}
+
+		#trick-media embed{
+			width:100%;
+			height:auto;
+		}
+
+		#trick-media img{
+			width:100%;
+			height:auto;
+		}
+
+		#home-header h1{
+		    font-size: 1.5em;
+		}
+
+		#form-edit li{
+			width:100%;
+		}
+
+		#trick-edit-container{
+			width:100%;
+		}
+
+		#comment-list{
+			width:100%;
+		}
+
+	}
+
+	@media only screen and (max-width: 500px) {
+		#menu{
+			display:none;
+		}
+
+		#phone-trigger-menu{
+			display:block;
+		}
+
+		#trick-header-title{
+			font-size:3em;
+		}
+
+	}

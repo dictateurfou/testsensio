@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+
+	{% for message in app.flashes('notif') %}
+	    <div class="flash-notice">
+	        {{ message }}
+	    </div>
+	{% endfor %}
+
+	{% for message in app.flashes('notif_error') %}
+	    <div class="flash-notice">
+	        {{ message }}
+	    </div>
+	{% endfor %}
+
+
+	{{ form_start(form) }}		
+	{{ form_end(form) }}
+
+	{{ form_start(form_password) }}		
+	{{ form_end(form_password) }}
+{% endblock %}

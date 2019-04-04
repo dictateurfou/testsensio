@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{trick.getName()}}{% endblock %}
+
+{% block body %}
+	<div id="trick-content">
+		<section id="trick-header">
+			{% if app.user %}
+    			<div id="btn-edit"><a href="/trick/edit/{{trick.id}}"><i class='fas fa-edit'></i></a></div>
+			{% endif %}
+			
+			<img id="trick-img-header" src="{{asset('uploads/trick/'~ trick.imageList[0].name ~'')}}" />
+			<h1 id="trick-header-title">{{trick.getName()}} </h1>
+		</section>
+		<section id="trick-media">
+			{% for video in trick.getVideoList() %}
+	        	<embed type="video/webm" src="{{video}}"/>
+	    	{% endfor %}
+
+
+			{% for image in trick.getImageList() %}
+	        	<img src="{{asset('uploads/trick/'~ image.getName() ~'')}}" />
+	    	{% endfor %}
+	    </section>
+
+		<p id="trick-description">{{trick.getDescription()}}</p>
+
+		<section id="trick-additionalInfo">
+	    	<ul>
+	    		<li class="trick-group">{{trick.getCategory().getName()}}</li>
+	    		<li class="trick-date">créer le {{trick.getCreatedAt()|date('Y-m-d h:m')}}</li>
+	    		{% if trick.getEdited == 'yes' %}
+    				<li class="trick-date">éditer le {{trick.getEditedAt()|date('Y-m-d h:m')}}</li>
+				{% endif %}
+	    	</ul>
+	    </section>
+
+	    {% if app.user %}
+			{{ form_start(form) }}		
+			{{ form_end(form) }}
+		{% endif %}
+
+	    <ul id="comment-list">
+	       
+	    </ul>
+	    <button id="load-more">load more</button>
+
+	</div>
+	<script type="text/javascript">
+		var page = 1;
+		loadComments(page);
+	    function loadComments(pagination){
+	    	$.ajax({
+				url : 'http://{{app.request.httpHost}}/api/message/{{trick.id}}/' + pagination +'',
+				type : 'GET',
+				dataType : 'json',
+				success : function(objList, statut){
+					objList = JSON.parse(objList);
+					var i = 0;
+					
+					while(i < objList.length){
+						if(objList[i].author.avatar == "default.png"){
+							var avatar = "/images/defaultAvatar.png"
+						}
+						else{
+							var avatar = "/uploads/avatar/" + objList[i].author.avatar;
+						}
+						$("#comment-list").append("<li class='clearfix'><div id='comment-user-info'> <img src='" + avatar + "' /><p class='comment-username'>" + objList[i].author.username + "</p></div><div id='comment-content'> <p id='comment-text'>" + objList[i].content + "</p></div> </li>");
+
+						i++;
+					}
+					page++;
+					
+					if(objList.length == 0){
+						page--;
+						$("#load-more").hide();
+					}
+				},
+
+				error : function(resultat, statut, erreur){
+
+				}
+	    	});
+	    }
+
+		$( "#load-more" ).click(function() {
+			loadComments(page);
+		});
+	</script>
+{% endblock %}

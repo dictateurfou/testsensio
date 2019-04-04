@@ -1,0 +1,256 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit trick{% endblock %}
+
+{% block body %}
+	<div id="trick-edit-container">
+		<section id="trick-header">
+				<img id="trick-img-header" src="{{asset('uploads/trick/'~ form.imageList[0].vars.data.name ~'')}}" />
+				<h1 id="trick-header-title">{{trick.getName()}} </h1>
+		</section>
+		<div id="form-edit">
+			{{ form_start(form) }}
+	    
+		  		{{ form_label(form.videoList) }}
+			    <ul id="videoList-fields-list"
+		        data-prototype='{{form_widget(form.videoList.vars.prototype)|e}}'
+		        data-widget-tags="{{ '<li></li>'|e }}">
+			  		{% for videoListField in form.videoList %}
+				        <li id="{{loop.index0}}">
+				        	<iframe src="{{videoListField.vars.data}}" width="100%"></iframe>
+				            {{ form_errors(videoListField) }}
+				            {{ form_widget(videoListField) }}
+			             	<div class="media-action edit" data-action="edit" data-type="video" data-id="{{loop.index0}}">
+				            	<i class="fas fa-edit"></i>
+				            </div>
+				            <div class="media-action delete" data-action="delete" data-type="video" data-id="{{loop.index0}}">
+				            	<i class="fas fa-trash-alt"></i>
+				            </div>
+				        </li>
+		    		{% endfor %}
+				</ul>
+
+
+	      
+	      	 <button type="button"
+	        class="add-another-collection-widget"
+	        data-list="#videoList-fields-list">Ajouter une autre video</button>
+
+	      
+	        	{{ form_label(form.imageList) }}
+		  	    <ul id="imageList-fields-list"
+		        data-prototype='{{form_widget(form.imageList.vars.prototype)|e}}'
+		        data-widget-tags="{{ '<li></li>'|e }}">
+				    {% for imageListField in form.imageList %}
+				        <li id="{{imageListField.vars.name}}">
+				        	<img src="{{asset('uploads/trick/'~ imageListField.vars.data.name ~'')}}" width="100%" />
+				            {{ form_errors(imageListField) }}
+				            {{ form_widget(imageListField) }}
+				            <div class="media-action edit" data-action="edit" data-type="image" data-id="{{loop.index0}}">
+				            	<i class="fas fa-edit"></i>
+				            </div>
+				            <div class="media-action delete" data-action="delete" data-type="image" data-id="{{loop.index0}}">
+				            	<i class="fas fa-trash-alt"></i>
+				            </div>
+				        </li>
+				    {% endfor %}
+			    </ul>
+		   	
+			    
+	   		 <button type="button"
+	        class="add-another-collection-widget"
+	        data-list="#imageList-fields-list">Ajouter une autre image</button>
+	        
+				{{form_row(form.name)}}
+				{{form_row(form.description)}}
+				{{form_row(form.category)}}
+
+        	{{ form_end(form) }}
+
+
+
+		</div>
+	</div>
+
+<script>
+
+const youtubeLink = ["youtube.com","youtu.be"];
+const dailymotionLink = ["dailymotion.com","dai.ly"];
+const validLink = {youtube:youtubeLink,dailymotion:dailymotionLink};
+const EmbedUrl = {youtube:"https://www.youtube.com/embed/",dailymotion:"https://www.dailymotion.com/embed/video/"};
+
+function reorderImage(){
+	var li = $("#imageList-fields-list li");
+	var prototype = $("#imageList-fields-list").data("prototype");
+
+	li.each(function( index ) {	
+		var lastId = $(this).attr('id');
+		console.log("ok");
+		$(this).attr('id',index);
+		$("#trick_imageList_" + lastId).attr('id',"trick_imageList_" + index);
+		/*hidden input*/
+		$("#trick_imageList_" + lastId + "_name").attr("id","trick_imageList_" + index + "_name");
+		$("#trick_imageList_" + index + "_name").attr('name',"trick[imageList][" + index + "][name]");
+		/*file input*/
+		$("#trick_imageList_" + lastId + "_file").attr('id',"trick_imageList_" + index + "_file");
+		$("#trick_imageList_" + index + "_file").attr('name',"trick[imageList][" + index + "][file]");
+
+		$(this).find(".media-action").attr("data-id",index);
+
+	});
+}
+
+function reorderVideo(){
+	var li = $("#videoList-fields-list li");
+	li.each(function( index ) {	
+		var lastId = $(this).attr('id');
+		console.log("passe");
+		$(this).attr('id',index);
+		$("#trick_videoList_" + lastId).attr("id","trick_videoList_" + index);
+		$("#trick_videoList_" + index).attr('name',"trick[videoList][" + index + "]");
+		$(this).find(".media-action").attr("data-id",index);
+
+	});
+}
+
+function checkIfEmbed(link){
+	var str2 = "embed";
+	var embed = false;
+	if(link.indexOf(str2) != -1){
+    	embed = true;
+	}
+	return embed;
+}
+
+function onChangeVideoLink(){
+	console.log($(this).val());
+	var link = $(this).val();
+	var embed = checkIfEmbed($(this).val());
+	console.log("embed = " + embed);
+	var website = verifLinkDomain(link);
+	console.log("domain" + website);
+	if(embed == false && website != false){
+		var id = $(this).attr('id').slice(-1);
+		var newLink = convertLinkToEmbed(link,website);
+		console.log("newLink = " + newLink);
+		$("#videoList-fields-list #" + id + " iframe").attr("src",newLink);
+		
+	}
+	
+	
+}
+
+function verifLinkDomain(link){
+	var know = false;
+ 	var urlSite;
+	for(let [key, value] of Object.entries(validLink)){
+		var i = 0;
+		while(i < value.length){
+			if(link.indexOf(value[i]) != -1){
+				urlSite = key;
+				know = true;	
+			}
+			i++;
+		}
+		if(know == true){
+			console.log("know = true" + " urlSite = " + urlSite);
+			return urlSite;
+		}
+	}
+	return know;
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+function convertLinkToEmbed(link,website){
+	if(link.indexOf("?") != -1){
+		var video = getParameterByName('v',link);
+		if(website == "dailymotion"){
+			var urlSplit = link.split("/");
+			video = urlSplit[4];
+			video = video.split("?")[0];
+		}
+	}
+	else{
+		var urlSplit = link.split("/");
+		console.log(urlSplit);
+		if(website == "youtube"){
+			var video = urlSplit[3];
+		}
+		else if(website == "dailymotion"){
+			if(link.indexOf("dai.ly") != -1){
+				var video = urlSplit[3];
+			}
+			else{
+				var video = urlSplit[4];
+
+			}
+			
+		}
+	}
+	return EmbedUrl[website] + video;
+	
+}
+
+jQuery(document).ready(function () {
+	$("#imageList-fields-list input").removeAttr('required');
+	$("li input").hide();
+
+	$("#videoList-fields-list input").on('input',onChangeVideoLink);
+
+	$(".media-action").click(function (e) {
+		var action = $(this).data("action");
+		var type = $(this).data('type');
+		var id = $(this).data('id');
+		if(action == "edit"){
+			if(type == "image"){
+				$('#trick_imageList_'+ id + '_file').show();
+			}
+			else if(type == "video"){
+				$('#trick_videoList_' + id).show();
+			}
+		}
+		else if(action == "delete"){
+			if(type == "image"){
+				$("#imageList-fields-list li#" + id).remove();
+				reorderImage();
+			}
+			else if(type == "video"){
+				$("#videoList-fields-list li#" + id).remove();
+				reorderVideo();
+			}
+		}
+		console.log("ok");
+	});
+
+    jQuery('.add-another-collection-widget').click(function (e) {
+        var list = jQuery(jQuery(this).attr('data-list'));
+        // Try to find the counter of the list or use the length of the list
+        var counter = list.data('widget-counter') | list.children().length;
+
+        // grab the prototype template
+        var newWidget = list.attr('data-prototype');
+        // replace the "__name__" used in the id and name of the prototype
+        // with a number that's unique to your emails
+        // end name attribute looks like name="contact[emails][2]"
+        newWidget = newWidget.replace(/__name__/g, counter);
+        // Increase the counter
+        counter++;
+        // And store it, the length cannot be used if deleting widgets is allowed
+        list.data('widget-counter', counter);
+
+        // create a new list element and add it to the list
+        var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
+        console.log(newElem.attr("id",counter-1));
+        newElem.appendTo(list);
+    });
+});
+</script>
+{% endblock %}
